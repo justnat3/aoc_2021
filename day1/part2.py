@@ -2,28 +2,41 @@ from utils import read_sample
 import time
 import sys
 
+# zero, one, two
+# pop, sum, store
+
 def main() -> int:
-    dta = read_sample()
-    dta = dta.split('\n')
-    print(dta)
+    dta = read_sample().split('\n')
+    windows = []
+    stack = []
     incs = 0
 
-    start = time.time()
-    for indx, i in enumerate(dta):
-        i = int(i)
-        if indx == 0 and i > int(dta[indx + 1]):
+    # for indx, i in enumerate(dta):
+    while True:
+        if len(dta) == 3:
+            stack.append(int(dta[0]))
+            stack.append(int(dta[1]))
+            stack.append(int(dta[2]))
+            windows.append(sum(stack,0))
+            stack = []
+            break
+
+        stack.append(int(dta[0]))
+        stack.append(int(dta[1]))
+        stack.append(int(dta[2]))
+        windows.append(sum(stack,0))
+        stack = []
+        dta.pop(0)
+
+    for idx, j in enumerate(windows):
+        if idx == 0 and j > int(windows[idx + 1]):
             incs += 1
 
-        if i > int(dta[indx - 1]):
+        if j > int(windows[idx - 1]):
             incs += 1
 
-    print("Time Taken: ", time.time() - start)
     print("Increases: ", incs)
-
     return 0
 
 if __name__ == "__main__":
-    if main() == 0:
-        sys.exit(0)
-    else:
-        sys.exit(1)
+    main()
